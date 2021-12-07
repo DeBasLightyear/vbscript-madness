@@ -38,6 +38,14 @@ Function queryDataFromDatabase(pathToDb, sql)
     Set queryDataFromDatabase = oConnection.Execute(sql)
 End Function
 
+Function readTextFile(pathToFile)
+    Dim fso
+    Set fso = CreateObject("Scripting.FileSystemObject")
+
+    Set file = fso.OpenTextFile(pathToFile, 1)
+    readTextFile = file.ReadAll()
+End Function
+
 Sub writeTextToFile(content, fileName)
     Dim fso
     Set fso = CreateObject("Scripting.FileSystemObject")
@@ -46,7 +54,7 @@ Sub writeTextToFile(content, fileName)
     filePath = "./" & fileName
     
     ' open a new file for writing and add the content
-    Set file = FSO.OpenTextFile(filePath, 2, True)
+    Set file = fso.OpenTextFile(filePath, 2, True)
     file.Write(content)
     file.Close()
 End Sub
@@ -57,7 +65,7 @@ dbPath = "./dvdrental.accdb"
 
 ' your SQL
 Dim sql
-sql = "SELECT * FROM payment"
+sql = readTextFile("./my-query.sql")
 
 ' execute the query and write the result to a file
 Dim queryResult
