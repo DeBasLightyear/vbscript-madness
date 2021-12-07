@@ -43,16 +43,35 @@ Function queryDataFromDatabase(pathToDb, sql)
     Set queryDataFromDatabase = oConnection.Execute(sql)
 End Function
 
+Sub writeTextToFile(content, fileName)
+    Dim fso
+    Set fso = CreateObject("Scripting.FileSystemObject")
+
+    Dim filePath
+    filePath = "./" & fileName
+    
+    ' open a new file for writing and add the content
+    Set file = FSO.OpenTextFile(filePath, 2, True)
+    file.Write(content)
+    file.Close()
+End Sub
+
+' path to the MS Access database
 Dim dbPath
 dbPath = "./dvdrental.accdb"
 
-Dim foobarz
-foobarz = "SELECT * FROM film WHERE film_id = 4"
+' your SQL
+Dim sql
+sql = "SELECT * FROM film"
 
+' execute the query and write the result to a file
 Dim queryResult
-Set queryResult = queryDataFromDatabase(dbpath, foobarz)
+Set queryResult = queryDataFromDatabase(dbpath, sql)
 
 Dim csvString
 csvString = getCsvString(queryResult)
 
-MsgBox(csvString)
+Call writeTextToFile(csvString, "test-output.csv")
+
+' Notify the user that things have happened.
+MsgBox("Things have happened.")
