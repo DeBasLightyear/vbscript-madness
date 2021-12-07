@@ -5,12 +5,7 @@ Function getCsvString(recordSet)
 
     ' Get the header rows
     For Each field in recordSet.Fields
-        If field.Name = "" Then
-            getCsvString = getCsvString & "(computed" & c & ")" & ";"
-            cursor = cursor + 1
-        Else
-            getCsvString = getCsvString & field.Name & ";"
-        End If
+        getCsvString = getCsvString & field.Name & ";"
     Next
     
     ' remove the last semicolon from the result
@@ -62,7 +57,7 @@ dbPath = "./dvdrental.accdb"
 
 ' your SQL
 Dim sql
-sql = "SELECT * FROM film"
+sql = "SELECT * FROM payment"
 
 ' execute the query and write the result to a file
 Dim queryResult
