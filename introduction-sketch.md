@@ -1,5 +1,6 @@
 # Handige webpagina's:
   - https://www.tutorialspoint.com/vbscript/index.htm
+  - https://www.tutorialspoint.com/vbscript/vbscript_dialog_boxes.htm
   - https://www.w3schools.com/asp/asp_ref_vbscript_functions.asp
 
 # Wat is VBScript?
@@ -77,3 +78,31 @@ maar de meest gebruikte moet de For Each zijn:
 For Each thingy In aNiceArray
   ' Do something
 Next
+
+Do
+  ' Do something
+Loop Until [boolean]
+
+# Functions
+Een klein herbruikbaar stukje code dat je zo vaak kan aanroepen als je wilt. Het helpt ook om je script overzichtelijk te houden.
+Het idee is exact hetzelfde als met Excel formules en functions in SQL. Een function heeft een naam en je stopt er data in.
+Eventueel geeft het je daarna weer data terug.
+
+Function functieNaam(parameter1, parameter2)
+  ' Do something
+  ' Return something
+  functieNaam = [resultaat]
+End Function
+
+Dim output
+output = functieNaam(1, 2)
+
+# Sub procedures
+Ook een klein herbruikbaar stukje code, maar waar een functie je iets een nieuwe waarde teruggeeft, voert een sub alleen maar een taak uit (en geeft dus niets terug)
+Denk hierbij aan het wegschrijven van stuk tekst naar een bestand. Subs moet je aanroepen met Call, anders gaat vbscript klagen
+
+Sub subNaam(parameter1, parameter2, parameter3)
+  ' Doe iets
+End Sub
+
+Call subNaam(1, 2, 3)
