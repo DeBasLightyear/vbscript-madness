@@ -79,3 +79,13 @@ Sub subNaam(parameter1, parameter2, parameter3)
 End Sub
 
 Call subNaam(1, 2, 3)
+
+' Dialog boxes
+MsgBox("Dit is een simpel bericht")
+MsgBox("Dit is een bericht met OK en Cancel knop en een title", 1, "Hello There")
+MsgBox("Dit is een bericht met JA en NEE knop en een title", 4, "Hello There Again")
+
+InputBox("Dit is een simpel bericht")
+InputBox("Dit is een bericht met title", "Dit is een title")
+InputBox("Dit is een bericht met title", "Dit is een title")
+InputBox("Dit is een bericht met title en default waarde voor de input", "Dit is een title", 42)
