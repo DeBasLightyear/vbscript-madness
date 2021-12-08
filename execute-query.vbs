@@ -34,7 +34,8 @@ Function queryDataFromDatabase(pathToDb, sql)
     Set oConnection = CreateObject("ADODB.Connection")
     oConnection.Open(sConnectionString)
 
-    ' Get recordset object from SQL query    
+    ' Get recordset object from SQL query
+    MsgBox("Dit kan even duren. De volgende query wordt uitgevoerd:" & vbLf & sql)
     Set queryDataFromDatabase = oConnection.Execute(sql)
 End Function
 
@@ -61,7 +62,7 @@ End Sub
 
 ' path to the MS Access database
 Dim dbPath
-dbPath = "./dvdrental.accdb"
+dbPath = "./databases/dvdrental.mdb"
 
 ' your SQL
 Dim sql
