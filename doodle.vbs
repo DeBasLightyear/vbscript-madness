@@ -1,19 +1,10 @@
-Function doodle(pathToDb, sql)
-    ' Connect to a database
-    ' Build oConnection string
-    Dim sConnectionString
-    sConnectionString = "Provider=Microsoft.ACE.OLEDB.16.0;Data Source=" & pathToDb
+Do
+    Dim input
+    input = InputBox("Enter normal text:", "I implore you to act", "Text goes here")
 
-    ' Create oConnection object and open connection
-    Dim oConnection
-    Set oConnection = CreateObject("ADODB.Connection")
-    oConnection.Open(sConnectionString)
-
-    ' Get recordset object from SQL query    
-    Dim objRecordset
-    Set objRecordset = oConnection.Execute(sql)
-
-    Set doodle = objRecordset
-End Function
-
-
+    If IsEmpty(input) Or input = "2" Then
+        WScript.Quit()
+    ElseIf input = "" Then
+        MsgBox("No input.")
+    End If
+Loop Until input <> ""
