@@ -73,11 +73,11 @@ End Sub
 
 ' path to the MS Access database
 Dim dbPath
-dbPath = "./databases/dvdrental.mdb"
+dbPath = "../databases/dvdrental.mdb"
 
 ' your SQL
 Dim sql
-sql = readTextFile("./my-query.sql")
+sql = readTextFile("../my-query.sql")
 
 ' execute the query and write the result to a file
 Dim queryResult
