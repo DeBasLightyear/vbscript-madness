@@ -69,13 +69,12 @@ Sub writeTextToFile(content, fileName)
     file.Write(content)
     file.Close()
 End Sub
-
 ' ###############################################
 ' ###############################################
 
 
 ' ###################################################################################
-'                                        FINALE
+'                               FINALE - HACKERMAN EDITION
 ' ###################################################################################
 ' Voor de laatste opdracht gaan we het uitvoeren van een query en het exporteren van 
 ' het resultaat automatiseren. Hiervoor zal je dus een query schrijven en die query
@@ -84,10 +83,10 @@ End Sub
 '   1. Schrijf een query die... [TODO!!];
 '   2. Sla die op in een .sql bestand;
 '   3. Schrijf daarna een VB Script dat:
-'       A. Het .sql bestand opent dmv de readTextFile functie;
+'       A. Het .sql bestand opent dmv de readTextFile functie (die je zelf moet schrijven);
 '       B. De query vervolgens uitvoert dmv de executeQueryServer functie;
 '       C. Het resultaat omzet naar een csv string;
-'       D. De csv string wegschrijft naar een .csv bestand dmv de writeTextToFile functie;
+'       D. De csv string wegschrijft naar een .csv bestand dmv de writeTextToFile functie (die je zelf moet schrijven);
 '       E. Laat aan de gebruiker weten dat er een bestand is geschreven;
 '   4. Open het bestand in Excel en aanschouw het resultaat.
 

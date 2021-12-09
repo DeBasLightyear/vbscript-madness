@@ -1,53 +1,52 @@
-' FINALE:
-' Voor de laatste opdracht gaan we het uitvoeren van een query en het exporteren van het resultaat automatiseren.
-' Het idee is dat je een query schrijft, die query uitvoert dmv een VbScript 
-' - Schrijf een query die... [TODO!!];
-' - Sla die op in een .sql bestand;
-' - Schrijf daarna een VB Script dat de gebruiker vraagt om:
-'     1. De bestandslocatie van het sql script;
-'     2. Een parameter om de query mee uit te voeren (TODO!!)
-' - Voer de query uit in je VB Script en schrijf het resultaat weg in een .csv bestand
-' - Open het bestand in Excel en aanschouw het resultaat.
+' ###############################################
+'               HIER NIET AANKOMEN!!
+' De opdracht begint verder onderaan dit bestand.
+' ###############################################
+Function parseStringToArray(toParse)
+    Dim preResult
+    preResult = toParse
 
-Function getCsvString(recordSet)
-    Dim field
-    Dim cursor
-    cursor = 1
+    ' remove all spaces and new lines
+    preResult = Replace(preResult, " ", "", 1, -1, 1)
+    preResult = Replace(preResult, vbLf, "", 1, -1, 0)
+    preResult = Replace(preResult, vbCrLf, "", 1, -1, 0)
 
-    ' Get the header rows
-    For Each field in recordSet.Fields
-        getCsvString = getCsvString & field.Name & ";"
+    ' remove trailing square bracket
+    preResult = Left(preResult, Len(preResult) - 1)
+
+    ' remove opening square brackets
+    preResult = Replace(preResult, "[", "", 1, -1, 1)
+
+    ' split outer array
+    result = Split(preResult, "],")
+
+    ' split inner arrays
+    For i = 0 to UBound(result)
+        result(i) = Split(result(i), ",")
     Next
-    
-    ' remove the last semicolon from the result
-    getCsvString = Left(getCsvString, Len(getCsvString) - 1)
 
-    ' Get the data rows
-    While Not(recordSet.EOF)
-        ' add a new line
-        getCsvString = getCsvString & vbLf
-        For Each field In recordSet.Fields
-            getCsvString = getCsvString & field.Value & ";"
-        Next
-        getCsvString = Left(getCsvString, Len(getCsvString) - 1)
-        recordSet.MoveNext()
-    Wend
+    ' return result
+    parseStringToArray = result
 End Function
 
-Function queryDataFromDatabase(pathToDb, sql)
-    ' Connect to a database
-    ' Build oConnection string
-    Dim sConnectionString
-    sConnectionString = "Provider=Microsoft.ACE.OLEDB.16.0;Data Source=" & pathToDb
+Function executeQueryServer(sql)
+    ' Docs: https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ms760305(v=vs.85)
+    ' Create an http object
+    Dim xmlHttpReq
+    Set xmlHttpReq = CreateObject("MSXML2.XMLHTTP.6.0")
 
-    ' Create oConnection object and open connection
-    Dim oConnection
-    Set oConnection = CreateObject("ADODB.Connection")
-    oConnection.Open(sConnectionString)
+    ' Set up the request
+    Call xmlHttpReq.open("POST", "http://localhost:5000/dvdrental/", false)
+    ' Call xmlHttpReq.open("POST", "https://8a97-212-102-35-156.ngrok.io/dvdrental/", false)
+    Call xmlHttpReq.setRequestHeader("Content-Type", "application/json")
 
-    ' Get recordset object from SQL query
-    MsgBox("Dit kan even duren. De volgende query wordt uitgevoerd:" & vbLf & sql)
-    Set queryDataFromDatabase = oConnection.Execute(sql)
+    ' Remove carriage return character (since UNIX servers don't like it) and fire the SQL
+    dim cleanSQl
+    cleanSQl = Replace(sql, vbCrLf, " ", 1, -1, 0)
+
+    Call xmlHttpReq.send("{""sql"": """ & cleanSQl & """}")
+
+    executeQueryServer = parseStringToArray(xmlHttpReq.responseText)
 End Function
 
 Function readTextFile(pathToFile)
@@ -71,22 +70,44 @@ Sub writeTextToFile(content, fileName)
     file.Close()
 End Sub
 
-' path to the MS Access database
-Dim dbPath
-dbPath = "../databases/dvdrental.mdb"
+' ###############################################
+' ###############################################
 
-' your SQL
+
+' ###################################################################################
+'                                        FINALE
+' ###################################################################################
+' Voor de laatste opdracht gaan we het uitvoeren van een query en het exporteren van 
+' het resultaat automatiseren. Hiervoor zal je dus een query schrijven en die query
+' geautomatiseerd uitvoeren, zodat je daarna het resultaat kan wegschrijven.
+' Hier voor moet je de volgende stappen doorlopen:
+'   1. Schrijf een query die... [TODO!!];
+'   2. Sla die op in een .sql bestand;
+'   3. Schrijf daarna een VB Script dat:
+'       A. Het .sql bestand opent dmv de readTextFile functie;
+'       B. De query vervolgens uitvoert dmv de executeQueryServer functie;
+'       C. Het resultaat omzet naar een csv string;
+'       D. De csv string wegschrijft naar een .csv bestand dmv de writeTextToFile functie;
+'       E. Laat aan de gebruiker weten dat er een bestand is geschreven;
+'   4. Open het bestand in Excel en aanschouw het resultaat.
+
+' Stap 3A: Het SQL-bestand lezen
 Dim sql
 sql = readTextFile("../my-query.sql")
 
-' execute the query and write the result to a file
+' Stap 3B: De query uitvoeren
 Dim queryResult
-Set queryResult = queryDataFromDatabase(dbpath, sql)
+queryResult = executeQueryServer(sql)
 
+' Stap 3C: Het resultaat omzetten naar een csv-string
 Dim csvString
-csvString = getCsvString(queryResult)
+For Each row in queryResult
+    ' join all row items together on a semicolon and add a new line
+    csvString = csvString & Join(row, ";") & vbLf
+Next
 
+' Stap 3D: De csv-string naar een tekstbestand wegschrijven
 Call writeTextToFile(csvString, "test-output.csv")
 
-' Notify the user that things have happened.
-MsgBox("Things have happened.")
+' Stap 3E: De gebruiker laten weten dat er een bestand is geschreven
+MsgBox("Er zijn dingen gebeurd.")
