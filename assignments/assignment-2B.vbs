@@ -80,7 +80,12 @@ End Sub
 ' het resultaat automatiseren. Hiervoor zal je dus een query schrijven en die query
 ' geautomatiseerd uitvoeren, zodat je daarna het resultaat kan wegschrijven.
 ' Hier voor moet je de volgende stappen doorlopen:
-'   1. Schrijf een query die... [TODO!!];
+'   1. Schrijf een query die aan de volgende eisen voldoet:
+'       A. Koppel de tabel "film" aan de tabel "customer";
+'       B. Reken uit wat iedere klant in totaal heeft uitgegeven aan gehuurde films (hint: aggregate function);
+'       C. Order dit op zo'n manier dat je een ranglijst krijgt van groot naar klein;
+'       D. Zorg ervoor dat de voornaam en achternaam van de klant in de output staat;
+'       E. Pak van de vastgestelde dataset alleen de top 10 (hint: row_number).
 '   2. Sla die op in een .sql bestand;
 '   3. Schrijf daarna een VB Script dat:
 '       A. Het .sql bestand opent dmv de readTextFile functie (die je zelf moet schrijven);
@@ -92,7 +97,7 @@ End Sub
 
 ' Stap 3A: Het SQL-bestand lezen
 Dim sql
-sql = readTextFile("../my-query.sql")
+sql = readTextFile("./assignment-2B.sql")
 
 ' Stap 3B: De query uitvoeren
 Dim queryResult
@@ -106,7 +111,7 @@ For Each row in queryResult
 Next
 
 ' Stap 3D: De csv-string naar een tekstbestand wegschrijven
-Call writeTextToFile(csvString, "test-output.csv")
+Call writeTextToFile(csvString, "assignment-2B.csv")
 
 ' Stap 3E: De gebruiker laten weten dat er een bestand is geschreven
 MsgBox("Er zijn dingen gebeurd.")
