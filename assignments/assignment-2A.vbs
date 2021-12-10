@@ -36,8 +36,7 @@ Function executeQueryServer(sql)
     Set xmlHttpReq = CreateObject("MSXML2.XMLHTTP.6.0")
 
     ' Set up the request
-    Call xmlHttpReq.open("POST", "http://localhost:5000/dvdrental/", false)
-    ' Call xmlHttpReq.open("POST", "https://8a97-212-102-35-156.ngrok.io/dvdrental/", false)
+    Call xmlHttpReq.open("POST", "https://a8a9-195-78-54-218.ngrok.io/dvdrental/", false)
     Call xmlHttpReq.setRequestHeader("Content-Type", "application/json")
 
     ' Remove carriage return character (since UNIX servers don't like it) and fire the SQL
