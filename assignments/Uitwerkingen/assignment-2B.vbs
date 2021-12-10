@@ -68,13 +68,12 @@ Sub writeTextToFile(content, fileName)
     file.Write(content)
     file.Close()
 End Sub
-
 ' ###############################################
 ' ###############################################
 
 
 ' ###################################################################################
-'                                        FINALE
+'                               FINALE - HACKERMAN EDITION
 ' ###################################################################################
 ' Voor de laatste opdracht gaan we het uitvoeren van een query en het exporteren van 
 ' het resultaat automatiseren. Hiervoor zal je dus een query schrijven en die query
@@ -84,22 +83,34 @@ End Sub
 '       A. Koppel de tabel "film" aan de tabel "customer";
 '       B. Reken uit wat iedere klant in totaal heeft uitgegeven aan gehuurde films (hint: aggregate function);
 '       C. Order dit op zo'n manier dat je een ranglijst krijgt van groot naar klein;
-'       D. Zorg ervoor dat de voornaam en achternaam van de klant in de output staat.
+'       D. Zorg ervoor dat de voornaam en achternaam van de klant in de output staat;
+'       E. Pak van de vastgestelde dataset alleen de top 10 (hint: row_number).
 '   2. Sla die op in een .sql bestand;
 '   3. Schrijf daarna een VB Script dat:
-'       A. Het .sql bestand opent dmv de readTextFile functie;
+'       A. Het .sql bestand opent dmv de readTextFile functie (die je zelf moet schrijven);
 '       B. De query vervolgens uitvoert dmv de executeQueryServer functie;
 '       C. Het resultaat omzet naar een csv string;
-'       D. De csv string wegschrijft naar een .csv bestand dmv de writeTextToFile functie;
+'       D. De csv string wegschrijft naar een .csv bestand dmv de writeTextToFile functie (die je zelf moet schrijven);
 '       E. Laat aan de gebruiker weten dat er een bestand is geschreven;
 '   4. Open het bestand in Excel en aanschouw het resultaat.
 
 ' Stap 3A: Het SQL-bestand lezen
+Dim sql
+sql = readTextFile("./assignment-2B.sql")
 
 ' Stap 3B: De query uitvoeren
+Dim queryResult
+queryResult = executeQueryServer(sql)
 
 ' Stap 3C: Het resultaat omzetten naar een csv-string
+Dim csvString
+For Each row in queryResult
+    ' join all row items together on a semicolon and add a new line
+    csvString = csvString & Join(row, ";") & vbLf
+Next
 
 ' Stap 3D: De csv-string naar een tekstbestand wegschrijven
+Call writeTextToFile(csvString, "assignment-2B.csv")
 
 ' Stap 3E: De gebruiker laten weten dat er een bestand is geschreven
+MsgBox("Er zijn dingen gebeurd.")

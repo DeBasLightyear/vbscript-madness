@@ -48,26 +48,6 @@ Function executeQueryServer(sql)
     executeQueryServer = parseStringToArray(xmlHttpReq.responseText)
 End Function
 
-Function readTextFile(pathToFile)
-    Dim fso
-    Set fso = CreateObject("Scripting.FileSystemObject")
-
-    Set file = fso.OpenTextFile(pathToFile, 1)
-    readTextFile = file.ReadAll()
-End Function
-
-Sub writeTextToFile(content, fileName)
-    Dim fso
-    Set fso = CreateObject("Scripting.FileSystemObject")
-
-    Dim filePath
-    filePath = "./" & fileName
-    
-    ' open a new file for writing and add the content
-    Set file = fso.OpenTextFile(filePath, 2, True)
-    file.Write(content)
-    file.Close()
-End Sub
 ' ###############################################
 ' ###############################################
 
@@ -95,22 +75,11 @@ End Sub
 '   4. Open het bestand in Excel en aanschouw het resultaat.
 
 ' Stap 3A: Het SQL-bestand lezen
-Dim sql
-sql = readTextFile("./assignment-2B.sql")
 
 ' Stap 3B: De query uitvoeren
-Dim queryResult
-queryResult = executeQueryServer(sql)
 
 ' Stap 3C: Het resultaat omzetten naar een csv-string
-Dim csvString
-For Each row in queryResult
-    ' join all row items together on a semicolon and add a new line
-    csvString = csvString & Join(row, ";") & vbLf
-Next
 
 ' Stap 3D: De csv-string naar een tekstbestand wegschrijven
-Call writeTextToFile(csvString, "assignment-2B.csv")
 
 ' Stap 3E: De gebruiker laten weten dat er een bestand is geschreven
-MsgBox("Er zijn dingen gebeurd.")

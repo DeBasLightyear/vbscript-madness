@@ -95,11 +95,22 @@ End Sub
 '   4. Open het bestand in Excel en aanschouw het resultaat.
 
 ' Stap 3A: Het SQL-bestand lezen
+Dim sql
+sql = readTextFile("./assignment-2A.sql")
 
 ' Stap 3B: De query uitvoeren
+Dim queryResult
+queryResult = executeQueryServer(sql)
 
 ' Stap 3C: Het resultaat omzetten naar een csv-string
+Dim csvString
+For Each row in queryResult
+    ' join all row items together on a semicolon and add a new line
+    csvString = csvString & Join(row, ";") & vbLf
+Next
 
 ' Stap 3D: De csv-string naar een tekstbestand wegschrijven
+Call writeTextToFile(csvString, "assignment-2A.csv")
 
 ' Stap 3E: De gebruiker laten weten dat er een bestand is geschreven
+MsgBox("Er zijn dingen gebeurd.")
